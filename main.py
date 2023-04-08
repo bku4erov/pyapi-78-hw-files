@@ -25,6 +25,22 @@ def load_cook_book(filename):
             file.readline()
     return cook_book
 
+def get_shop_list_by_dishes(cook_book, dishes, person_count):
+    shop_list = {}
+    for dish in dishes:
+        for ingredient in cook_book[dish]:
+            shop_list.setdefault(ingredient['ingredient_name'], {'measure': ingredient['measure'], 'quantity': 0})
+            shop_list[ingredient['ingredient_name']]['quantity'] += ingredient['quantity'] * person_count
+    return shop_list
+
 
 cook_book = load_cook_book('recipes.txt')
+print('Кулинарная книга:')
 pprint.pprint(cook_book, compact=True, width=100)
+print()
+
+dishes = ['Запеченный картофель', 'Омлет']
+person_count = 2
+shop_list = get_shop_list_by_dishes(cook_book, dishes, person_count)
+print(f'Список покупка для приготовления блюд {", ".join(dishes)} на {person_count} персон(ы):')
+pprint.pprint(shop_list, compact=True, width=100)
